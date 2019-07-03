@@ -24,7 +24,7 @@ Make sure you have the firebase tools installed on your computer with the correc
 yarn add firebase-tools; # npm install firebase-tools
 ```
 
-### Initial Firebase Setup
+### Initial Firebase Setup From Scratch
 
 These are the steps you would take if you were setting your project from scratch. If the project is already setup, please ignore these steps and proceed to `### Existing Firebase Setup`
 
@@ -106,7 +106,7 @@ error functions@: The engine "node" is incompatible with this module. Expected v
 error Found incompatible module.
 ```
 
-3. Install Root Depencies
+3. Install Root Dependencies
 
 ```bash
 yarn install; # npm install
