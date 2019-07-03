@@ -1,7 +1,18 @@
 // Dependencies
+const admin = require('firebase-admin');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+
+// Imports
+const config = require('../config/config.json');
+const serviceAccount = require('../config/serviceAccountKey.json');
+
+// Config
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: config.databaseURL
+});
 
 // Initialize Express
 const app = express();
@@ -26,6 +37,9 @@ app.get('/', (req, res) => {
     ENV: app.get('ENV')
   });
 });
+
+// Additional Routes
+app.use('/api', require('./routes'));
 
 // Port Listening
 app.listen(app.get('PORT'), () => {

@@ -81,6 +81,54 @@ Do you want to use ESLint to catch probable bugs and enforce style? (y/N) y
 Do you want to install dependencies with npm now? (Y/n) y
 ```
 
+8. Adding Service Account Key:
+
+**_NOTE_:** Make you sure only perform this step once and just refer to the existing generated file otherwise every time you generate a new key, every one else's code will **NOT WORK**.
+
+A. In your firebase console in the browser, next to `Project Overview`, click the `⚙` icon and go to `Project Settings`.
+
+B. In the top navigation, go to `Service Accounts`
+
+C. Under `Firebase Admin SDK`, make sure `Node.js` is selected and click **Generate new private key**
+
+D. Place the downloaded file and rename it as `functions/config/serviceAccountKey.json`
+
+9. Adding Config File:
+
+A. In your firebase console in the browser, next to `Project Overview`, click the `⚙` icon and go to `Project Settings`.
+
+B. In the top navigation, go to `General`
+
+C. Scroll down to section `Your Apps` > `Web apps` and make sure your project is selected.
+
+D. Under `Firebase SDK snippet` make sure `Config` is selected and copy the scripts:
+
+```javascript
+const firebaseConfig = {
+  apiKey: '{api-key}',
+  authDomain: '{auth-domain}',
+  databaseURL: '{database-url}',
+  projectId: '{project-id}',
+  storageBucket: '{storage-bucket}',
+  messagingSenderId: '{messaging-sender-id}',
+  appId: '{app-id}'
+};
+```
+
+E. Create a new file called `functions/config/config.json`, paste and modify the code as:
+
+```json
+{
+  "apiKey": "{api-key}",
+  "authDomain": "{auth-domain}",
+  "databaseURL": "{database-url}",
+  "projectId": "{project-id}",
+  "storageBucket": "{storage-bucket}",
+  "messagingSenderId": "{messaging-sender-id}",
+  "appId": "{app-id}"
+}
+```
+
 ### Existing Firebase Setup
 
 1. Configure `.firebaserc`
@@ -105,6 +153,22 @@ cp .firebaserc.example .firebaserc;
 }
 ```
 
+4. Configure your `config.json` file:
+
+Copy and modify accordingly with the right crentials.
+
+```bash
+cp functions/config/config.example.json functions/config/config.json;
+```
+
+5. Configure your `serviceAccountKey.json` file:
+
+Copy and modify accordingly with the right crentials.
+
+```bash
+cp functions/config/serviceAccountKey.example.json functions/serviceAccountKey/config.json;
+```
+
 _*NOTE*:_ If you get the following error, make sure to do `nvm install` in the root to install the correct node version:
 
 ```bash
@@ -112,13 +176,13 @@ error functions@: The engine "node" is incompatible with this module. Expected v
 error Found incompatible module.
 ```
 
-4. Install Root Dependencies
+6. Install Root Dependencies
 
 ```bash
 yarn install; # npm install
 ```
 
-5. Install Functions Dependencies
+7. Install Functions Dependencies
 
 ```bash
 cd functions;
@@ -188,17 +252,32 @@ When we go to `http://localhost:5000` we should see:
 { "VERSION": "1.0.0", "HOST": "0.0.0.0", "PORT": "5000", "ENV": "development" }
 ```
 
+## Testing Endpoint
+
+To test one of the new routes, use this curl command in another terminal window:
+
+```bash
+curl -X POST \
+  http://localhost:5000/api/posts \
+  -H 'Accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -H 'cache-control: no-cache' \
+  -d '{
+	"comment": "Hello first comment 👋."
+}'
+```
+
 ## Deployment
 
-_NOTE_: You will need to be logged in to `firebase-tools` for this to work, and make sure you are set the correct `project` as well.
+**_NOTE_**: You will need to be logged in to `firebase-tools` for this to work, and make sure you are set the correct `project` as well.
 
-_IMPORTANT_: Make sure you environment keys / variables are set for production before pushing.
+**_IMPORTANT_**: Make sure you environment keys / variables are set for production before pushing.
 
-_NODE_VERSION_: Make sure you are using node the correct node version (run `nvm use`);
+**_NODE_VERSION_**: Make sure you are using node the correct node version (run `nvm use`);
 
-_LINTING_ERRORS_: Make sure to fix your linting errors, otherwise it will NOT deploy.
+**_LINTING_ERRORS_**: Make sure to fix your linting errors, otherwise it will NOT deploy.
 
-_DEPLOYMENT_VERSIONING_: Make sure to increment the deployment version in `functions/src/index.js` to make sure you have an idea if the new code has been deployed.
+**_DEPLOYMENT_VERSIONING_**: Make sure to increment the deployment version in `functions/src/index.js` to make sure you have an idea if the new code has been deployed.
 
 To deploy, run:
 
