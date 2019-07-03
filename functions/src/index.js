@@ -6,11 +6,11 @@ const cors = require('cors');
 
 // Imports
 const config = require('../config/config.json');
-const serviceAccount = require('../config/serviceAccountKey.json');
+const serviceAccountKey = require('../config/serviceAccountKey.json');
 
 // Config
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert(serviceAccountKey),
   databaseURL: config.databaseURL
 });
 
