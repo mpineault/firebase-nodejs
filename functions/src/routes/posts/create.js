@@ -34,7 +34,6 @@ const CREATE = (req, res) => {
     .add(data)
     .then(doc => {
       const { id } = doc;
-      console.log(doc);
       return res.status(201).send({ success: true, data: Object.assign(data, { id }) });
     })
     .catch(error =>
