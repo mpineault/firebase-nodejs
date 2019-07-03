@@ -89,7 +89,13 @@ Do you want to install dependencies with npm now? (Y/n) y
 cp .firebaserc.example .firebaserc;
 ```
 
-2. Set project
+2. Make sure you are logged into your google account:
+
+```bash
+./node_modules/firebase-tools/lib/bin/firebase.js login;
+```
+
+3. Set project
 
 ```json
 {
@@ -106,13 +112,13 @@ error functions@: The engine "node" is incompatible with this module. Expected v
 error Found incompatible module.
 ```
 
-3. Install Root Dependencies
+4. Install Root Dependencies
 
 ```bash
 yarn install; # npm install
 ```
 
-4. Install Functions Dependencies
+5. Install Functions Dependencies
 
 ```bash
 cd functions;
